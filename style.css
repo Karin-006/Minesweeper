@@ -1,0 +1,229 @@
+:root {
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --accent-color: #4a90e2;
+    --cell-bg: #e4e6eb;
+    --cell-hover: #d8dadf;
+    --cell-revealed: #ffffff;
+    --mine-color: #ff4d4f;
+    --flag-color: #fadb14;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.game-container {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    max-width: 95vw;
+}
+
+h1 {
+    margin-top: 0;
+    color: var(--accent-color);
+}
+
+.controls {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+select, button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    background: white;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: #357abd;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.board {
+    display: grid;
+    gap: 2px;
+    margin: 0 auto;
+    background-color: #ccc;
+    padding: 2px;
+    border-radius: 4px;
+    user-select: none;
+    width: fit-content; /* Fixes the gray background issue */
+    max-width: 100%;
+}
+
+.cell {
+    width: var(--cell-size, 30px);
+    height: var(--cell-size, 30px);
+    background-color: var(--cell-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color 0.1s;
+    font-size: calc(var(--cell-size, 30px) * 0.6);
+}
+
+.cell:hover:not(.revealed):not(.flagged) {
+    background-color: var(--cell-hover);
+}
+
+.cell.revealed {
+    background-color: var(--cell-revealed);
+    cursor: default;
+    animation: pop-in 0.2s ease-out;
+}
+
+@keyframes pop-in {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.cell.mine {
+    background-color: var(--mine-color);
+}
+
+.cell.flagged {
+    background-color: var(--cell-bg);
+}
+
+.cell.flagged::after {
+    content: '🚩';
+    font-size: 0.8rem;
+}
+
+.cell.revealed.mine {
+    background-color: var(--cell-bg);
+}
+
+.cell.revealed.mine.exploded {
+    background-color: var(--mine-color);
+}
+
+.cell.revealed.mine::after {
+    content: '💣';
+}
+
+.cell[data-num="1"] { color: #1976d2; }
+.cell[data-num="2"] { color: #388e3c; }
+.cell[data-num="3"] { color: #d32f2f; }
+.cell[data-num="4"] { color: #7b1fa2; }
+.cell[data-num="5"] { color: #ff8f00; }
+.cell[data-num="6"] { color: #0097a7; }
+.cell[data-num="7"] { color: #424242; }
+.cell[data-num="8"] { color: #1565c0; }
+
+/* Animations */
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes celebrate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes flash-red {
+    0% { background-color: rgba(255, 77, 79, 0); }
+    50% { background-color: rgba(255, 77, 79, 0.3); }
+    100% { background-color: rgba(255, 77, 79, 0); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+.celebrate {
+    animation: celebrate 0.5s ease-in-out infinite;
+}
+
+.flash-red {
+    animation: flash-red 0.5s;
+}
+
+.message {
+    margin-top: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.win { 
+    color: #388e3c;
+    text-shadow: 0 0 10px rgba(56, 142, 60, 0.5);
+}
+
+.lose { 
+    color: #d32f2f;
+    text-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+@keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
