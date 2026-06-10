@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Minesweeper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Minesweeper</h1>
+        
+        <div class="controls">
+            <select id="difficulty">
+                <option value="beginner">初級 (9x9, 10地雷)</option>
+                <option value="intermediate">中級 (16x16, 40地雷)</option>
+                <option value="expert">上級 (30x16, 99地雷)</option>
+            </select>
+            <button id="restart">リスタート</button>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">地雷:</span>
+                <span id="mine-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">時間:</span>
+                <span id="timer">0</span>
+            </div>
+            <div class="status-item">
+                <span class="label">ベスト:</span>
+                <span id="best-time">-</span>
+            </div>
+        </div>
+
+        <div id="board" class="board"></div>
+
+        <div id="message" class="message"></div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
